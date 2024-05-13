@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess the Number</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
+  input[type="number"] {
+    padding: 8px;
+    font-size: 16px;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h2>Guess the Number</h2>
+
+<p>Guess a number between 1 and 100:</p>
+<input type="number" id="guessInput">
+<button id="submitBtn">Submit Guess</button>
+
+<p id="result"></p>
+
+<script>
+  const secretNumber = Math.floor(Math.random() * 100) + 1;
+  let numGuesses = 0;
+
+  const guessInput = document.getElementById('guessInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultParagraph = document.getElementById('result');
+
+  function checkGuess() {
+    const guess = parseInt(guessInput.value);
+
+    if (isNaN(guess) || guess < 1 || guess > 100) {
+      resultParagraph.textContent = 'Please enter a valid number between 1 and 100.';
+    } else {
+      numGuesses++;
+      if (guess === secretNumber) {
+        resultParagraph.textContent = `Congratulations! You guessed the number ${secretNumber} in ${numGuesses} guesses!`;
+        submitBtn.disabled = true;
+      } else if (guess < secretNumber) {
+        resultParagraph.textContent = 'Too low! Try again.';
+      } else {
+        resultParagraph.textContent = 'Too high! Try again.';
+      }
+    }
+
+    guessInput.value = '';
+    guessInput.focus();
+  }
+
+  submitBtn.addEventListener('click', checkGuess);
+  guessInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      checkGuess();
+    }
+  });
+</script>
+
+</body>
+</html>
